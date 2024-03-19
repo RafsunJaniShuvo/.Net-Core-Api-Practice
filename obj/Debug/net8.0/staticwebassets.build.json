@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "jGbKmdNjDfU+PMPh5FtXZU4vGFfgewhxEGjkj69iSOg=",
+  "Source": "WebApiDotNetCore",
+  "BasePath": "_content/WebApiDotNetCore",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
