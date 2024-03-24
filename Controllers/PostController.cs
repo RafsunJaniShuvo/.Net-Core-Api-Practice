@@ -34,7 +34,7 @@ namespace WebApiDotNetCore.Controllers
             try
             {
                 //var posts = __dbContext.Posts.ToList();
-                var posts = _postManager.GetAll().ToList();
+                var posts = _postManager.GetAll().OrderBy(x=>x.CreatedDate).ToList();
                 return Ok(posts);
             }
             catch (Exception ex)
@@ -43,6 +43,19 @@ namespace WebApiDotNetCore.Controllers
                return BadRequest(ex.Message);
             }
          
+        }
+
+        [HttpGet]
+        public IActionResult GetAllByDesc()
+        {
+            try
+            {
+                var posts = _postManager.GetAll().OrderByDescending(x=>x.CreatedDate).ToList();
+                return Ok(posts);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -136,6 +149,21 @@ namespace WebApiDotNetCore.Controllers
                 }
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("title")]
+        public IActionResult GetAll(string title)
+        {
+            try
+            {
+                var posts = _postManager.GetAll(title);
+                return Ok(posts);
+
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
