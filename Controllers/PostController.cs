@@ -31,36 +31,60 @@ namespace WebApiDotNetCore.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            //var posts = __dbContext.Posts.ToList();
-            var posts = _postManager.GetAll().ToList();
-            return Ok(posts);
+            try
+            {
+                //var posts = __dbContext.Posts.ToList();
+                var posts = _postManager.GetAll().ToList();
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+
+               return BadRequest(ex.Message);
+            }
+         
         }
 
         [HttpPost]
         public IActionResult Add(Post post)
         {
-            post.CreatedDate = DateTime.Now;
-            bool isSaved = _postManager.Add(post);
-            //__dbContext.Posts.Add(post);
-            //bool isSaved = __dbContext.SaveChanges() > 0;
-
-            if (isSaved)
+            try
             {
-                return Ok(post);
+                post.CreatedDate = DateTime.Now;
+                bool isSaved = _postManager.Add(post);
+                //__dbContext.Posts.Add(post);
+                //bool isSaved = __dbContext.SaveChanges() > 0;
+
+                if (isSaved)
+                {
+                    return Ok(post);
+                }
+                return BadRequest("Failed To Save");
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
-            return BadRequest("Failed To Save");
+           
         }
 
         [HttpGet("id")]
 
         public IActionResult GetById(int id)
         {
-            var post = _postManager.GetById(id);
-            if (post == null)
+            try
             {
-                return BadRequest("Id not found !");
+                var post = _postManager.GetById(id);
+                if (post == null)
+                {
+                    return BadRequest("Id not found !");
+                }
+                return Ok(post);
             }
-            return Ok(post);
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -68,37 +92,52 @@ namespace WebApiDotNetCore.Controllers
 
         public IActionResult Edit(Post post)
         {
-            if(post.Id == 0)
+            try
             {
-                return null;
-            }
-            bool isUpdate = _postManager.Update(post);
-            if(isUpdate) 
-            { 
-                return Ok(post);
-            }
+                if (post.Id == 0)
+                {
+                    return null;
+                }
+                bool isUpdate = _postManager.Update(post);
+                if (isUpdate)
+                {
+                    return Ok(post);
+                }
                 return BadRequest("Update Failed");
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message) ;
+            }
         }
 
         [HttpDelete("id")]
         public IActionResult Delete(int id)
         {
-            var post = _postManager.GetById(id);
-            if(post.Id == null)
+            try
             {
-                return BadRequest("Id Not Available");
-            }
-            else
-            {
-                bool isDelete = _postManager.Delete(post);
-                if(isDelete)
+                var post = _postManager.GetById(id);
+                if (post.Id == null)
                 {
-                    return Ok("Post has been deleted!");
+                    return BadRequest("Id Not Available");
                 }
                 else
                 {
-                    return BadRequest("Failed to delete!");
+                    bool isDelete = _postManager.Delete(post);
+                    if (isDelete)
+                    {
+                        return Ok("Post has been deleted!");
+                    }
+                    else
+                    {
+                        return BadRequest("Failed to delete!");
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
