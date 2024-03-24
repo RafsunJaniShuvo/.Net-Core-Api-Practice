@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using WebApiDotNetCore.Context; // Add this using directive
+using WebApiDotNetCore.Context;
+using WebApiDotNetCore.Interfaces.Manager;
+using WebApiDotNetCore.Managerr; // Add this using directive
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+builder.Services.AddTransient<IPostManager, PostManager>(); //
+//ilder.Services.AddScoped<IPostManager, PostManager>(); // 
+//ilder.Services.AddSingleton<IPostManager, PostManager>(); //
 
 
 builder.Services.AddControllers();
