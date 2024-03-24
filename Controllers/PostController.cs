@@ -29,7 +29,7 @@ namespace WebApiDotNetCore.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Post>> GetAll()
+        public IActionResult GetAll()
         {
             //var posts = __dbContext.Posts.ToList();
             var posts = _postManager.GetAll().ToList();
@@ -37,7 +37,7 @@ namespace WebApiDotNetCore.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Post> Add(Post post)
+        public IActionResult Add(Post post)
         {
             post.CreatedDate = DateTime.Now;
             bool isSaved = _postManager.Add(post);
@@ -53,7 +53,7 @@ namespace WebApiDotNetCore.Controllers
 
         [HttpGet("id")]
 
-        public ActionResult<Post> GetById(int id)
+        public IActionResult GetById(int id)
         {
             var post = _postManager.GetById(id);
             if (post == null)
@@ -66,7 +66,7 @@ namespace WebApiDotNetCore.Controllers
 
         [HttpPut]
 
-        public ActionResult<Post> Edit(Post post)
+        public IActionResult Edit(Post post)
         {
             if(post.Id == 0)
             {
@@ -81,7 +81,7 @@ namespace WebApiDotNetCore.Controllers
         }
 
         [HttpDelete("id")]
-        public ActionResult<string> Delete(int id)
+        public IActionResult Delete(int id)
         {
             var post = _postManager.GetById(id);
             if(post.Id == null)
